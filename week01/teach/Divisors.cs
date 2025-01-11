@@ -2,9 +2,9 @@ public static class Divisors
 {
     public static void Run() 
     {
-        List<int> list = FindDivisors(80);
+        List<int> list = FindDivisors(1080);
         Console.WriteLine("<List>{" + string.Join(", ", list) + "}"); // <List>{1, 2, 4, 5, 8, 10, 16, 20, 40}
-        List<int> list1 = FindDivisors(79);
+        List<int> list1 = FindDivisors(337);
         Console.WriteLine("<List>{" + string.Join(", ", list1) + "}"); // <List>{1}
     }
 
