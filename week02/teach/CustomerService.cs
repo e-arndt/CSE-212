@@ -1,4 +1,7 @@
-﻿/// <summary>
+﻿using System;
+using System.Threading;
+
+/// <summary>
 /// Maintain a Customer Service Queue.  Allows new customers to be 
 /// added and allows customers to be serviced.
 /// </summary>
@@ -13,22 +16,41 @@ public class CustomerService {
         // Test 1
         // Scenario: 
         // Expected Result: 
+        // int size = new CustomerQueueSize();
         Console.WriteLine("Test 1");
-
+        var csTicket = new CustomerService(2);
+        Console.WriteLine(csTicket.ToString());
+        Console.WriteLine("Test 1");
+        csTicket.AddNewCustomer();
+        csTicket.ServeCustomer();
+        csTicket.ServeCustomer();
         // Defect(s) Found: 
 
         Console.WriteLine("=================");
-
+        
         // Test 2
         // Scenario: 
         // Expected Result: 
         Console.WriteLine("Test 2");
-
+        csTicket.AddNewCustomer();
+        csTicket.AddNewCustomer();
+        csTicket.AddNewCustomer();
+        csTicket.ServeCustomer();
+        csTicket.ServeCustomer();
+        csTicket.ServeCustomer();
         // Defect(s) Found: 
 
         Console.WriteLine("=================");
 
         // Add more Test Cases As Needed Below
+
+        // Test 5
+        // Scenario: Does the max size get defaulted to 10 if an invalid value is provided?
+        // Expected Result: It should display 10
+        Console.WriteLine("Test 5");
+        csTicket = new CustomerService(0);
+        Console.WriteLine($"Size should be 10: {csTicket}");
+        // Defect(s) Found: None
     }
 
     private readonly List<Customer> _queue = new();
@@ -67,7 +89,7 @@ public class CustomerService {
     /// </summary>
     private void AddNewCustomer() {
         // Verify there is room in the service queue
-        if (_queue.Count > _maxSize) {
+        if (_queue.Count >= _maxSize) {
             Console.WriteLine("Maximum Number of Customers in Queue.");
             return;
         }
@@ -88,10 +110,44 @@ public class CustomerService {
     /// Dequeue the next customer and display the information.
     /// </summary>
     private void ServeCustomer() {
-        _queue.RemoveAt(0);
-        var customer = _queue[0];
-        Console.WriteLine(customer);
+        if (_queue.Count <= 0)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Customer Service Queue is EMPTY");
+        }
+        else
+        {
+            var customer = _queue[0];
+            _queue.RemoveAt(0);
+            Console.WriteLine();
+            Console.WriteLine(customer);
+        }
+        
+        
+        
     }
+
+    // private int CustomerQueueSize()
+    // {
+    //     Console.WriteLine();
+    //     Console.Write("Set max size of queue ");
+    //     var qSize = Console.ReadLine()!.Trim();
+    //     int s = int.Parse(qSize);
+    //     if (s < 1)
+    //     {
+    //         Console.WriteLine("Invalid size entered");
+    //         Console.WriteLine("Using default size of 10");
+    //         s = 10;
+    //         Thread.Sleep(2000);
+    //         return s;
+    //     }
+    //     else 
+    //     {
+    //         Console.WriteLine($"Setting queue size of {qSize}");
+    //         Thread.Sleep(2000);
+    //         return s;
+    //     }
+    // }
 
     /// <summary>
     /// Support the WriteLine function to provide a string representation of the
