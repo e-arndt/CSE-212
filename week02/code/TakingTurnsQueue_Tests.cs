@@ -86,6 +86,7 @@ public class TakingTurnsQueueTests
     // Run 10 times.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
     // Defect(s) Found: // Missing if condition to test for Turns of zero or less in GetNextPerson method in TakingTurnsQueue.cs
+    // Missing code to make sure any person passing this condition test is re-added to the queue
     public void TestTakingTurnsQueue_ForeverZero()
     {
         var timTurns = 0;
@@ -117,6 +118,7 @@ public class TakingTurnsQueueTests
     // Run 10 times.
     // Expected Result: Tim, Sue, Tim, Sue, Tim, Sue, Tim, Tim, Tim, Tim
     // Defect(s) Found: // Missing if condition to test for Turns of zero or less in GetNextPerson method in TakingTurnsQueue.cs
+    // Missing code to make sure any person passing this condition test is re-added to the queue
     public void TestTakingTurnsQueue_ForeverNegative()
     {
         var timTurns = -3;
