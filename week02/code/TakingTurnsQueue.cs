@@ -45,6 +45,12 @@ public class TakingTurnsQueue
                 person.Turns -= 1;
                 _people.Enqueue(person);
             }
+            // Added if condition to test for Turns of zero or less
+            // Make sure any person passing this condition test is re-added to the queue
+            else if (person.Turns <= 0)
+            {
+                _people.Enqueue(person);
+            }
 
             return person;
         }
