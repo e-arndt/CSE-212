@@ -19,11 +19,13 @@
         ];
 
         Console.WriteLine($"Number of items in the collection: {data.Length}");
-        Console.WriteLine($"Number of duplicates : {CountDuplicates(data)}");
+        Console.WriteLine($"Count of Numbers having duplicates  : {CountDuplicates(data)}  : ex. 1,2,3,3,3,4,4 = 2 nums w/dups");
+        Console.WriteLine($"Count of Numbers with multiple dups : {CountUniqueDuplicates(data)} : ex. 1,2,3,3,3,4,4 = 3 dup pairs");
     }
 
     private static int CountDuplicates(int[] data)
     {
+        // Add code here. My solution code
         var startData = new HashSet<int>();
         var dupNums = new HashSet<int>();
         
@@ -36,5 +38,23 @@
         }
 
         return dupNums.Count;
+    }
+
+
+    private static int CountUniqueDuplicates(int[] data)
+    {
+        // Add code here. Solution code
+        var unique = new HashSet<int>();
+        var duplicates = 0;
+
+        foreach (var x in data)
+        {
+            if (unique.Contains(x))
+                duplicates++;
+            else
+                unique.Add(x);
+        }
+
+        return duplicates;
     }
 }

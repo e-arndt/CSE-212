@@ -6,9 +6,25 @@ public class Translator
         englishToGerman.AddWord("House", "Haus");
         englishToGerman.AddWord("Car", "Auto");
         englishToGerman.AddWord("Plane", "Flugzeug");
-        Console.WriteLine(englishToGerman.Translate("Car")); // Auto
-        Console.WriteLine(englishToGerman.Translate("Plane")); // Flugzeug
-        Console.WriteLine(englishToGerman.Translate("Train")); // ???
+        englishToGerman.AddWord("Apple", "Apfel");
+        englishToGerman.AddWord("Book", "Buch");
+        englishToGerman.AddWord("Ice", "Eis");
+        englishToGerman.AddWord("Yes", "Ja");
+        englishToGerman.AddWord("No", "Nein");
+        englishToGerman.AddWord("Cat", "Katze");
+
+        Console.WriteLine($"German for Car is {englishToGerman.Translate("Car")}");     // Auto
+        Console.WriteLine($"German for Plane is {englishToGerman.Translate("Plane")}"); // Flugzeug
+        Console.WriteLine($"German for House is {englishToGerman.Translate("House")}"); // Haus
+        Console.WriteLine($"German for Apple is {englishToGerman.Translate("Apple")}"); // Apfel
+        Console.WriteLine($"German for Toy is {englishToGerman.Translate("Toy")}");     // ???
+        Console.WriteLine($"German for Book is {englishToGerman.Translate("Book")}");   // Buch
+        Console.WriteLine($"German for Ice is {englishToGerman.Translate("Ice")}");     // Eis
+        Console.WriteLine($"German for Yes is {englishToGerman.Translate("Yes")}");     // Ja
+        Console.WriteLine($"German for Dog is {englishToGerman.Translate("Dog")}");     // ???
+        Console.WriteLine($"German for No is {englishToGerman.Translate("No")}");       // Nein
+        Console.WriteLine($"German for Cat is {englishToGerman.Translate("Cat")}");     // Katze
+        Console.WriteLine($"German for Train is {englishToGerman.Translate("Train")}"); // ???
     }
 
     private Dictionary<string, string> _words = new();
@@ -25,6 +41,7 @@ public class Translator
     public void AddWord(string fromWord, string toWord)
     {
         // ADD YOUR CODE HERE
+        _words[fromWord] = toWord;
     }
 
     /// <summary>
@@ -35,6 +52,16 @@ public class Translator
     public string Translate(string fromWord)
     {
         // ADD YOUR CODE HERE
-        return "";
+        string dictKey = fromWord;
+
+        if (_words.TryGetValue(dictKey, out string german))
+        {
+            return german;
+        }
+        else
+        {
+            return "???";
+        }
+        
     }
 }
