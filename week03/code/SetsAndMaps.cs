@@ -22,7 +22,35 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        // Create a HashSet of the parameter words to ensure no duplicates and fast lookups.
+        HashSet<string> wordSet = new HashSet<string>(words);
+        // Create a list to store the matching pairs
+        List<string> wordPairs = new List<string>();
+
+        // interate through all words being passed in via the words parameter
+        foreach (string word in words)
+        {
+            // take the second letter of each two letter word, then take the first letter and store in reverseWord
+            string reverseWord = $"{word[1]}{word[0]}";
+
+            // if the original word and reverse word are the same (aa or dd, ect.) then disregard.
+            if (word == reverseWord) continue;
+
+            // If the HashSet wordSet contains the reverse of the original word then we have a pair
+            if (wordSet.Contains(reverseWord))
+            {
+                // Add that pair to the wordPairs list
+                wordPairs.Add($"{word} & {reverseWord}");
+
+                // We are done with that pair and don't want to reconcider the word or reverse of the word
+                // again, so we remove them from the original list of words.
+                wordSet.Remove(word);
+                wordSet.Remove(reverseWord);
+            }
+        }
+
+        // Once the process is complete, we convert the completed list to a fixed array and return the found pairs.
+        return wordPairs.ToArray();
     }
 
     /// <summary>
@@ -38,13 +66,47 @@ public static class SetsAndMaps
     /// <returns>fixed array of divisors</returns>
     public static Dictionary<string, int> SummarizeDegrees(string filename)
     {
+        // Dictionary to hold the education catagories as keys and the count of people with that degree as the value.
+        // HashSet that holds the degrees that are discovered in the datafile.
         var degrees = new Dictionary<string, int>();
+        var degreeFound = new HashSet<string>();
+        
+        // Iterate through each line in the file
         foreach (var line in File.ReadLines(filename))
         {
+            // Assign each line, split at the "," to the variable called fields
             var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            // Assign to variable education, the contents(degree) of the 4th column aka index 3
+            var education = fields[3];  // TODO Problem 2 - ADD YOUR CODE HERE
+            // Set the degree counter to 1
+            int edCount = 1;
+        
+            // If the HashSet already has that degree...
+            if (degreeFound.Contains(education))
+            {
+                // Update that particular degree in the dictionary by adding 1 to the current count.
+                degrees[education] += edCount;
+            }
+
+            else
+            {
+                // Else if not found in the list of discovered degrees, add this new one to the HashSet
+                // and make sure to set the count value in the dictionary to 1.
+                degreeFound.Add(education);
+                degrees[education] = edCount;
+            }
+
         }
 
+        // var topEdu = degrees.OrderByDescending(p => p.Value).Take(10).ToArray();
+
+        // Console.WriteLine("Top 10 Education:");
+        // foreach (var degree in topEdu)
+        // {
+        //     Console.WriteLine($"Degree: {degree.Key} Count: {degree.Value:N0}");
+        // }
+
+        // Once completed, return the Key / Value pairs (Degree Name / Count)
         return degrees;
     }
 
@@ -67,7 +129,48 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        // Remove spaces and convert both strings to lowercase
+        var firstWord  = word1.Replace(" ", "").ToLower();
+        var secondWord = word2.Replace(" ", "").ToLower();
+
+        if (firstWord.Length != secondWord.Length)
+        {
+            return false;
+        }
+
+        var countLetters = new Dictionary<char, int>();
+
+        foreach (var letter in firstWord)
+        {
+            if (countLetters.ContainsKey(letter))
+            {
+                countLetters[letter]++;
+            }
+
+            else
+            {
+                countLetters[letter] = 1;
+            }
+
+        }
+
+        foreach (var letter in secondWord)
+        {
+            if (!countLetters.ContainsKey(letter))
+            {
+                return false;
+            }
+
+            countLetters[letter]--;
+            if (countLetters[letter] == 0)
+            {
+                countLetters.Remove(letter);
+            }
+
+
+        }
+
+        return countLetters.Count == 0;
     }
 
     /// <summary>
