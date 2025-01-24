@@ -129,49 +129,99 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
+        
         // Remove spaces and convert both strings to lowercase
         var firstWord  = word1.Replace(" ", "").ToLower();
         var secondWord = word2.Replace(" ", "").ToLower();
 
+        // It's not an Anagram if the letter count is different
         if (firstWord.Length != secondWord.Length)
         {
             return false;
         }
 
-        var countLetters = new Dictionary<char, int>();
+        // Using a fixed length array, just large enough for all ascii chars
+        var countLetters = new int[256];
 
+        // Iterate every letter of the fisrtWord aka word1
         foreach (var letter in firstWord)
         {
-            if (countLetters.ContainsKey(letter))
-            {
-                countLetters[letter]++;
-            }
-
-            else
-            {
-                countLetters[letter] = 1;
-            }
-
+            // this sets the ascii integer value of a letter as the [index] and adds 1 to the value stored there
+            // ex. index of [a] = [97] ++ adds 1 at that index, so index [97] = 1
+            countLetters[letter]++;
         }
 
+        // Iterate every letter of the secondWord aka word2
         foreach (var letter in secondWord)
         {
-            if (!countLetters.ContainsKey(letter))
+            // while iterating the second word, if a letter is found with a value of 0
+            // that means the current letter in the second word has not been seen before
+            // therefore this can't be an Anagram.
+            if (countLetters[letter] == 0)
             {
                 return false;
             }
 
-            countLetters[letter]--;
-            if (countLetters[letter] == 0)
+            // Else the letter has been seen at least once before in firstWord(word1)
+            // Therefore subtract the count at the index for that letter, which should be the same
+            // ascii index number for the same letter.
+            else
             {
-                countLetters.Remove(letter);
+                countLetters[letter]--;
             }
-
-
+            
         }
 
-        return countLetters.Count == 0;
+        // If we got this far then the same letters in the exact same quantity must exist in both words. Return True.
+        return true;
     }
+
+
+    //     First attempt, all good except efficiency was at 9 seconds
+    //     My computer is 11 years old and very slow so..... this code might be OK?
+    //     Trying to find a faster method........
+    //     var firstWord  = word1.Replace(" ", "").ToLower();
+    //     var secondWord = word2.Replace(" ", "").ToLower();
+
+    //     if (firstWord.Length != secondWord.Length)
+    //     {
+    //         return false;
+    //     }
+
+    //     var countLetters = new Dictionary<char, int>();
+
+    //     foreach (var letter in firstWord)
+    //     {
+    //         if (countLetters.ContainsKey(letter))
+    //         {
+    //             countLetters[letter]++;
+    //         }
+
+    //         else
+    //         {
+    //             countLetters[letter] = 1;
+    //         }
+
+    //     }
+
+    //     foreach (var letter in secondWord)
+    //     {
+    //         if (!countLetters.ContainsKey(letter))
+    //         {
+    //             return false;
+    //         }
+
+    //         countLetters[letter]--;
+    //         if (countLetters[letter] == 0)
+    //         {
+    //             countLetters.Remove(letter);
+    //         }
+
+
+    //     }
+
+    //     return countLetters.Count == 0;
+    // }
 
     /// <summary>
     /// This function will read JSON (Javascript Object Notation) data from the 
