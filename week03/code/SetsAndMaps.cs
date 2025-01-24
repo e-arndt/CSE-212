@@ -177,9 +177,9 @@ public static class SetsAndMaps
     // }
 
 
-    //     First attempt, all good except efficiency was at 9 seconds
-    //     My computer is 11 years old and very slow so..... this code might be OK?
-    //     Trying to find a faster method........
+        // First attempt, all good except efficiency was at 9 seconds
+        // My computer is 11 years old and very slow so..... this code might be OK?
+        // Trying to find a faster method........
         var firstWord  = word1.Replace(" ", "").ToLower();
         var secondWord = word2.Replace(" ", "").ToLower();
 
