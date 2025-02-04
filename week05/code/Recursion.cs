@@ -108,6 +108,7 @@ public static class Recursion
     public static decimal CountWaysToClimb(int s, Dictionary<int, decimal>? remember = null)
     {
         // First call of this function checks parameter 'remember', if null, create a new Dictionary
+        // Once created, the Dictionary is no longer null, but is an empty Dictionary.
         if (remember == null)
         {
             remember = new Dictionary<int, decimal>();
@@ -133,9 +134,12 @@ public static class Recursion
         // TODO Start Problem 3
 
         // Solve using recursion
+        // ways variable hold a count of all the different ways, summing each type of step (a single step, double or triple)
+        // s (# of stair steps) - 1 (a single step), s (# of stair steps) - 2 (a double step), and so on.
         decimal ways = CountWaysToClimb(s - 1, remember) + CountWaysToClimb(s - 2, remember) + CountWaysToClimb(s - 3, remember);
+        // Save calculated ways to the Dictionary called remember
         remember[s] = ways;
-
+        // return the total number of ways
         return ways;
     }
 
@@ -152,10 +156,40 @@ public static class Recursion
     /// Using recursion, insert all possible binary strings for a given pattern into the results list.  You might find 
     /// some of the string functions like IndexOf and [..X] / [X..] to be useful in solving this problem.
     /// </summary>
+    // parameters pass in the pattern (ex. 100*11*0) and an empty 'results' list
     public static void WildcardBinary(string pattern, List<string> results)
     {
-        // TODO Start Problem 4
+        // Get the index of the first * character found in the string
+        int index = pattern.IndexOf('*');
+
+        // If none are found in the string, then all * chars have been replaced or there where none at start
+        if (index == -1)
+        {
+            // Either way, assume we have a valid binary pattern and save or Add the pattern to the 'results' list
+            results.Add(pattern);
+            // Return nothing / end
+            return;
+        }
+
+        // if a * is found, replace it with a '0' at that index in the string called pattern and return the results list too
+        WildcardBinary(ReplaceAtIndex(pattern, index, '0'), results);
+        // if a * is found, replace it with a '1' at that index in the string called pattern and return the results list too
+        WildcardBinary(ReplaceAtIndex(pattern, index, '1'), results);
     }
+
+    // Use a separate function / method to handle the replacing as we need to convert to a character array
+    // so we can pick and replace a single character
+    // Pass in the pattern string via 'input', the index of the * char and the replacement character (either 0 or 1)
+    private static string ReplaceAtIndex(string input, int index, char replacement)
+    {
+        // change 'input' string to a character array
+        char[] chars = input.ToCharArray();
+        // Change the * found at 'index' in the chars array to 'replacement' (1 or 0)
+        chars[index] = replacement; // ex. '1' '0' '*' '1' '1' '*' '0' -> '1' '0' '0' '1' '1' '*' '0'
+        // Convert back to a string and return the newly updated string ex ('10011*0')
+        return new string(chars);
+    }
+
 
     /// <summary>
     /// Use recursion to insert all paths that start at (0,0) and end at the
@@ -169,11 +203,36 @@ public static class Recursion
             currPath = new List<ValueTuple<int, int>>();
         }
         
-        // currPath.Add((1,2)); // Use this syntax to add to the current path
+        currPath.Add((x,y)); // Use this syntax to add to the current path
 
-        // TODO Start Problem 5
-        // ADD CODE HERE
+        // If the current position is at the endpoint, add the position to path results and return
+        if (maze.IsEnd(x, y))
+        {
+            // This was crazy, apparently you have to 'escape' the 'defining' curly braces in order to
+            // include 'literal' braces. So rather than <List>{string.Join it has to be <List>{{{string.Join
+            results.Add($"<List>{{{string.Join(", ", currPath.Select(pos => $"({pos.Item1}, {pos.Item2})"))}}}");
+            return;
+        }
 
-        // results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
+        // Define the possible directions to move: right, down, left, up
+        int[] dx = { 1, 0, -1, 0 };
+        int[] dy = { 0, 1, 0, -1 };
+
+        // Iterate through all four possible directions
+        for (int i = 0; i < 4; i++)
+        {
+            // current x or y + a step in a new direction
+            int newX = x + dx[i];
+            int newY = y + dy[i];
+
+            // Check if the new position is within the maze bounds and is also a valid path
+            // Call the provided function called IsValidMove, pass the current path and the new direction we want to go
+            // If the new path is not a wall, out of bounds or hasn't been previously visted, True is returned
+            if (maze.IsValidMove(currPath, newX, newY))
+            {
+                // Recursive call of SolveMaze with new valid position
+                SolveMaze(results, maze, newX, newY, new List<ValueTuple<int, int>>(currPath));
+            }
+        }
     }
 }
