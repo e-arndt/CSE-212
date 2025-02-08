@@ -57,7 +57,11 @@ public static class Recursion
         {
             for (int i = 0; i < letters.Length; i++)
             {
+                // Create a substring called permLetter
+                // letters.Substring(0, i) starts at index 0 and goes up to i, not including
+                // letters.Substring(i + 1) adds 1 to the index, skipping a letter but includes the rest after
                 string permLetters = letters.Substring(0, i) + letters.Substring(i + 1);
+                // recursivly calls the method until size = 0
                 PermutationsChoose(results, permLetters, size - 1, word + letters[i]);
             }
         }
