@@ -234,7 +234,12 @@ public static class Recursion
             // If the new path is not a wall, out of bounds or hasn't been previously visted, True is returned
             if (maze.IsValidMove(currPath, newX, newY))
             {
-                // Recursive call of SolveMaze with new valid position
+                // Recursive call of SolveMaze with new valid position.
+                // The results found so far is passed into the next recursion call and added to if a new complete path is found.
+                // maze is passed so each instance of SolveMaze has access to methods and the same maze data.
+                // x, y the new x and y positions are passed to the next instance or recursion to process.
+                // A copy of the current path is passed in to be used in the recursive call.
+                // This way only valid paths are passed on.
                 SolveMaze(results, maze, newX, newY, new List<ValueTuple<int, int>>(currPath));
             }
         }
