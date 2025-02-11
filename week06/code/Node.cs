@@ -55,7 +55,15 @@ public class Node
 
     public int GetHeight()
     {
-        // TODO Start Problem 4
-        return 0; // Replace this line with the correct return statement(s)
+        // An integer variable is set (leftHeight / rightHeight)
+        // A check of each(left / right) subtree is set to check for null of the end(leaf)
+        // If not null(True) condition 1 is executed, ex. left.GetHeight()
+        // If null is found(False) condition 2 is executed(:0) the variable is set to zero(0)
+        int leftHeight = (Left != null) ? Left.GetHeight() : 0;
+        int rightHeight = (Right != null) ? Right.GetHeight() : 0;
+
+        // Math.Max compares the values stored in the variables and returns the higher value
+        // One(1) is added to the higher value to account for inclusion of the current node
+        return Math.Max(leftHeight, rightHeight) + 1;
     }
 }
