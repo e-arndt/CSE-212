@@ -11,6 +11,8 @@ public class Node
 
     public void Insert(int value)
     {
+        // If the Insert value equals a value in Data, it's not unique
+        // take no futher and simply return
         if (value == Data)
         {
             return;
@@ -36,6 +38,8 @@ public class Node
 
     public bool Contains(int value)
     {
+        // If the current value equals a value in Data, then Data contains that value
+        // return a bool value of True
         if (value == Data)
         {
             return true;

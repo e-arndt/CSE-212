@@ -80,8 +80,12 @@ public class BinarySearchTree : IEnumerable<int>
 
     private void TraverseBackward(Node? node, List<int> values)
     {
+        // If null do nothing, otherwise do the following
         if (node is not null)
         {
+            // Backwards means starting at the largest number and go in-order to the smallest
+            // Since the largest numbers are to the right of the root, we reverse order and begin
+            // on the right subtree
             TraverseBackward(node.Right, values);
             values.Add(node.Data);
             TraverseBackward(node.Left, values);
