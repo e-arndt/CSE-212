@@ -66,6 +66,8 @@ public static class Trees
     bst.Insert(sortedNumbers[middle]);
 
     // Recursively insert the integer found at the current middle for the left and right subranges
+    // middle - 1 and middle + 1 makes sure we don't reprocess the same index number, but shift to the left
+    // or shift to the right. first, middle - 1 for the left subtree and middle + 1, last for right subtree.
     InsertMiddle(sortedNumbers, first, middle - 1, bst);
     InsertMiddle(sortedNumbers, middle + 1, last, bst);
     }
