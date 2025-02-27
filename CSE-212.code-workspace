@@ -2,7 +2,15 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../BYUi/ITM 111/Rock Computer"
+		},
+		{
+			"path": "../../Coding/WX"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "WX"
+	}
 }
